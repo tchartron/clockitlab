@@ -1,6 +1,6 @@
 {
     "name": "thomaschartron/clockitlab",
-    "description": "Inject clockify times to gitlab",
+    "description": "Inject clockify times to gitlab spend",
     "require": {
         "guzzlehttp/guzzle": "^6.5",
         "vlucas/phpdotenv": "^4.1",
