@@ -1,0 +1,16 @@
+{
+    "name": "thomaschartron/clockitlab",
+    "description": "Inject clockify times to gitlab",
+    "require": {
+        "guzzlehttp/guzzle": "^6.5",
+        "vlucas/phpdotenv": "^4.1",
+        "league/climate": "^3.5",
+        "league/container": "^3.3"
+    },
+    "authors": [
+        {
+            "name": "Thomas Chartron",
+            "email": "thomas.chartron@gmail.com"
+        }
+    ]
+}
