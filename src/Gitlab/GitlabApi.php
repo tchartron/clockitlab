@@ -63,13 +63,16 @@ class GitlabApi {
     }
 
     public function pushTimeSpent($issue_iid, $project_id, $duration) {
-        // POST /projects/:id/issues/:issue_iid/add_spent_time
-        $issues = [];
         $res = $this->http_client->request('POST', sprintf('projects/%d/issues/%d/add_spent_time', $project_id, $issue_iid), [
             'form_params' => [
                 'duration' => $duration,
             ]
         ]);
+        return json_decode($res->getBody());
+    }
+
+    public function resetTimeSpent($issue_iid, $project_id, $duration) {
+        $res = $this->http_client->request('POST', sprintf('projects/%d/issues/%d/reset_spent_time', $project_id, $issue_iid), []);
         return json_decode($res->getBody());
     }
 

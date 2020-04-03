@@ -15,7 +15,13 @@ $climate->arguments->add([
         'prefix'      => 'm',
         'longPrefix'  => 'milestone',
         'description' => 'Gitlab mileston name',
-        'defaultValue' => 'Sprint 20-12'
+        'defaultValue' => 'Sprint 20-12',
+    ],
+    'reset' => [
+        'prefix'      => 'r',
+        'longPrefix'  => 'reset',
+        'description' => 'Reset time spent',
+        'noValue' => true,
     ],
     'verbose' => [
         'prefix'      => 'v',
@@ -40,7 +46,7 @@ if ($climate->arguments->defined('help')) {
     exit;
 }
 $milestone_name = $climate->arguments->get('milestone');
-
+$reset = $climate->arguments->get('reset');
 
 //Begining
 $container->add('guzzle-gitlab', \GuzzleHttp\Client::class)->addArgument([
@@ -107,11 +113,15 @@ foreach ($sprint_timers as $value) {
     }
 }
 
-// VIRER LES SECONDES DANS DURATION
 $issue_time_added = [];
 foreach ($timers as $timer) {
     $corresponding_issue = $timer->getCorrespondingIssue($issues);
     if($corresponding_issue !== false) {
+        if($reset === true) {
+            $reset_time_spent = $gitlab->resetTimeSpent($corresponding_issue->iid, $corresponding_issue->project_id, $timer->timer_value);
+            $climate->blue()->out(sprintf("Reseting time spent on issue (%d) %s", $corresponding_issue->iid, $corresponding_issue->title));
+            continue;
+        }
         $time_spent_stats = $gitlab->pushTimeSpent($corresponding_issue->iid, $corresponding_issue->project_id, $timer->timer_value);
         $climate->green()->out(sprintf("Adding %s to issue (%d) %s", $timer->timer_value, $corresponding_issue->iid, $corresponding_issue->title));
         array_push($issue_time_added, [
@@ -124,6 +134,6 @@ foreach ($timers as $timer) {
         );
     }
 }
-$climate->blue()->out("-------------------- RECAP : ---------------------");
-$climate->blue()->out(print_r($issue_time_added));
+// $climate->blue()->out("-------------------- RECAP : ---------------------");
+// $climate->blue()->out(print_r($issue_time_added));
 exit(0);
