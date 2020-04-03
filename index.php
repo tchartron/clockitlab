@@ -15,7 +15,7 @@ $climate->arguments->add([
         'prefix'      => 'm',
         'longPrefix'  => 'milestone',
         'description' => 'Gitlab mileston name',
-        'defaultValue' => 'Sprint 20-12',
+        'defaultValue' => '',
     ],
     'reset' => [
         'prefix'      => 'r',
@@ -45,10 +45,11 @@ if ($climate->arguments->defined('help')) {
     $climate->usage();
     exit;
 }
-$milestone_name = $climate->arguments->get('milestone');
-$reset = $climate->arguments->get('reset');
+if($climate->arguments->get('milestone') === "") {
+    $climate->red()->out("Specify a milestone name like : -m Sprint 20-14");
+    exit(1);
+}
 
-//Begining
 $container->add('guzzle-gitlab', \GuzzleHttp\Client::class)->addArgument([
     'base_uri' => getenv('GITLAB_API_URI'),
     'headers' => [
@@ -73,16 +74,14 @@ $milestone_dates = [
     'start' => "",
     'end' => "",
 ];
-$dates = false;
 
 foreach ($groups as $group) {
-    // $milestone = $gitlab->getMilestone($group_id);
-    $issues_result = $gitlab->getGroupMilestoneIssues($group->id, $milestone_name);
+    $issues_result = $gitlab->getGroupMilestoneIssues($group->id, $climate->arguments->get('milestone'));
     foreach ($issues_result as $issue) {
         array_push($issues, (new Clockitlab\Gitlab\Issue($issue->id, $issue->iid, $issue->title, $group->id, $group->name, $issue->project_id, $issue->milestone)));
     }
 }
-//Get first milestone only they all have the same date
+//Get first milestone only they all have the same dates
 $milestone_dates = [
     'start' => $issues[0]->milestone->start_date,
     'end' => $issues[0]->milestone->due_date,
@@ -105,7 +104,7 @@ if(!is_array($sprint_timers) || empty($sprint_timers)) {
 }
 $timers = [];
 foreach ($sprint_timers as $value) {
-    if(preg_match("/#(\d+)\s([\w\s \/'\#\@\%\€\£\$\,\.\+\-]+)/", $value->description, $matches)) {
+    if(preg_match("/#(\d+)\s([A-zÀ-ÿ0-9\s\/\+\-\:\;\,\&\.\?\$\€\£\%\(\)\'\"]+)/", $value->description, $matches)) {
         $issue_iid = $matches[1];
         $issue_title = $matches[2];
         $duration = Carbon\CarbonInterval::make($value->timeInterval->duration)->forHumans(['short' => true]); //duration is an ISO 8601 Period string
@@ -117,7 +116,7 @@ $issue_time_added = [];
 foreach ($timers as $timer) {
     $corresponding_issue = $timer->getCorrespondingIssue($issues);
     if($corresponding_issue !== false) {
-        if($reset === true) {
+        if($climate->arguments->get('reset')) {
             $reset_time_spent = $gitlab->resetTimeSpent($corresponding_issue->iid, $corresponding_issue->project_id, $timer->timer_value);
             $climate->blue()->out(sprintf("Reseting time spent on issue (%d) %s", $corresponding_issue->iid, $corresponding_issue->title));
             continue;
@@ -134,6 +133,9 @@ foreach ($timers as $timer) {
         );
     }
 }
-// $climate->blue()->out("-------------------- RECAP : ---------------------");
-// $climate->blue()->out(print_r($issue_time_added));
+if($climate->arguments->get('verbose') && !$climate->arguments->get('reset')) {
+    $climate->blue()->out("-------------------- RECAP : ---------------------");
+    $climate->blue()->out(print_r($issue_time_added));
+}
+$climate->blue()->out("------- Finished -------");
 exit(0);
