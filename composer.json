@@ -5,11 +5,14 @@
         "guzzlehttp/guzzle": "^6.5",
         "vlucas/phpdotenv": "^4.1",
         "league/climate": "^3.5",
-        "league/container": "^3.3"
+        "league/container": "^3.3",
+        "nesbot/carbon": "^2.32"
     },
     "autoload": {
         "psr-4": {
-            "Timers\\": "src/"
+            "Clockitlab\\Gitlab\\": "src/Gitlab",
+            "Clockitlab\\Clockify\\": "src/Clockify",
+            "Clockitlab\\Helper\\": "src/Helper"
         }
     },
     "authors": [
