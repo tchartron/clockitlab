@@ -3,7 +3,7 @@ require_once 'vendor/autoload.php';
 
 $container = new League\Container\Container;
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__); // Dotenv removed constructor for static method "create" container not usable for this ?
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__); // Dotenv removed constructor in 3.0.0
 $dotenv->load();
 
 // $container->add('climate', (new League\CLImate\CLImate()));
