@@ -39,7 +39,7 @@ $climate->arguments->add([
 
 $climate->arguments->parse();
 
-putenv("DEBUG=" . $climate->arguments->defined('verbose'));
+// putenv("DEBUG=" . $climate->arguments->defined('verbose'));
 
 if ($climate->arguments->defined('help')) {
     $climate->usage();
@@ -80,6 +80,7 @@ foreach ($groups as $group) {
     foreach ($issues_result as $issue) {
         array_push($issues, (new Clockitlab\Gitlab\Issue($issue->id, $issue->iid, $issue->title, $group->id, $group->name, $issue->project_id, $issue->milestone)));
     }
+    sleep(1);
 }
 //Get first milestone only they all have the same dates
 $milestone_dates = [
@@ -95,7 +96,7 @@ $carbon_sprint_end = new Carbon\Carbon($sprint_end_dt);
 $clockify = new Clockitlab\Clockify\ClockifyApi($container->get('guzzle-clockify'));
 $user_id = $clockify->getUser()->id;
 $workspace_id = $clockify->getWorkspace()[0]->id; // 1 is user personnal workspace
-
+sleep(1);
 $sprint_timers = $clockify->getTimersBetween($workspace_id, $user_id, $carbon_sprint_begin->toISOString(), $carbon_sprint_end->toISOString());
 
 if(!is_array($sprint_timers) || empty($sprint_timers)) {
@@ -115,6 +116,7 @@ foreach ($sprint_timers as $value) {
 $issue_time_added = [];
 foreach ($timers as $timer) {
     $corresponding_issue = $timer->getCorrespondingIssue($issues);
+    sleep(1);
     if($corresponding_issue !== false) {
         if($climate->arguments->get('reset')) {
             $reset_time_spent = $gitlab->resetTimeSpent($corresponding_issue->iid, $corresponding_issue->project_id, $timer->timer_value);
