@@ -49,6 +49,10 @@ if($climate->arguments->get('milestone') === "") {
     $climate->red()->out("Specify a milestone name like : -m Sprint 20-14");
     exit(1);
 }
+if(getenv('GITLAB_GROUPS') === "") {
+    $climate->red()->out("Not group specified please fill GITLAB_GROUPS env");
+    exit(1);
+}
 
 $container->add('guzzle-gitlab', \GuzzleHttp\Client::class)->addArgument([
     'base_uri' => getenv('GITLAB_API_URI'),
@@ -68,6 +72,7 @@ $container->add('guzzle-clockify', \GuzzleHttp\Client::class)->addArgument([
 
 $gitlab = new Clockitlab\Gitlab\GitlabApi($container->get('guzzle-gitlab'));
 $groups = $gitlab->getGroups();
+$climate->green()->out(sprintf("Fetching Gitlab groups : %s", getenv('GITLAB_GROUPS')));
 
 $issues = [];
 $milestone_dates = [
@@ -77,6 +82,7 @@ $milestone_dates = [
 
 foreach ($groups as $group) {
     $issues_result = $gitlab->getGroupMilestoneIssues($group->id, $climate->arguments->get('milestone'));
+    $climate->green()->out(sprintf("Fetching Gitlab issues for group : %s", $group->name));
     foreach ($issues_result as $issue) {
         array_push($issues, (new Clockitlab\Gitlab\Issue($issue->id, $issue->iid, $issue->title, $group->id, $group->name, $issue->project_id, $issue->milestone)));
     }
@@ -96,9 +102,10 @@ $carbon_sprint_end = new Carbon\Carbon($sprint_end_dt);
 $clockify = new Clockitlab\Clockify\ClockifyApi($container->get('guzzle-clockify'));
 $user_id = $clockify->getUser()->id;
 $workspace_id = $clockify->getWorkspace()[0]->id; // 1 is user personnal workspace
+$climate->green()->out(sprintf("Fetching Clockify user id and workspace id : %s %s", $user_id, $workspace_id));
 sleep(1);
 $sprint_timers = $clockify->getTimersBetween($workspace_id, $user_id, $carbon_sprint_begin->toISOString(), $carbon_sprint_end->toISOString());
-
+$climate->green()->out("Fetching sprint period timers");
 if(!is_array($sprint_timers) || empty($sprint_timers)) {
     $climate->red()->out(sprintf("No timers found on clockify for the specified milestone : %s", $milestone));
     exit(1);
@@ -112,6 +119,7 @@ foreach ($sprint_timers as $value) {
         array_push($timers, (new Clockitlab\Clockify\Timer($issue_iid, $issue_title, str_replace(' ', '', $duration))));
     }
 }
+$climate->green()->out(sprintf("Converted clockify periods to human time for gitlab API");
 
 $issue_time_added = [];
 foreach ($timers as $timer) {
