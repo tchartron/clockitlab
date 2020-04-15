@@ -119,7 +119,7 @@ foreach ($sprint_timers as $value) {
         array_push($timers, (new Clockitlab\Clockify\Timer($issue_iid, $issue_title, str_replace(' ', '', $duration))));
     }
 }
-$climate->green()->out(sprintf("Converted clockify periods to human time for gitlab API");
+$climate->green()->out(sprintf("Converted clockify periods to human time for gitlab API"));
 
 $issue_time_added = [];
 foreach ($timers as $timer) {
