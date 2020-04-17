@@ -8,6 +8,8 @@
         "league/container": "^3.3",
         "nesbot/carbon": "^2.32"
     },
+    "require-dev": {
+    },
     "autoload": {
         "psr-4": {
             "Clockitlab\\": "src/"
@@ -15,8 +17,8 @@
     },
     "authors": [
         {
-            "name": "Thomas Chartron",
-            "email": "thomas.chartron@gmail.com"
+            "name": "Web Expert Business",
+            "email": "staff@webexpertbusiness.net"
         }
     ]
 }
