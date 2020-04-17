@@ -129,11 +129,11 @@ foreach ($timers as $timer) {
     if($corresponding_issue !== false) {
         if($climate->arguments->get('reset')) {
             $reset_time_spent = $gitlab->resetTimeSpent($corresponding_issue->iid, $corresponding_issue->project_id, $timer->timer_value);
-            $climate->blue()->out(sprintf("Reseting time spent on issue (%d) %s", $corresponding_issue->iid, $corresponding_issue->title));
+            $climate->lightGreen()->out(sprintf("Reseting time spent on issue (%d) %s", $corresponding_issue->iid, $corresponding_issue->title));
             continue;
         }
         $time_spent_stats = $gitlab->pushTimeSpent($corresponding_issue->iid, $corresponding_issue->project_id, $timer->timer_value);
-        $climate->blue()->out(sprintf("Adding %s to issue (%d) %s", $timer->timer_value, $corresponding_issue->iid, $corresponding_issue->title));
+        $climate->lightGreen()->out(sprintf("Adding %s to issue (%d) %s", $timer->timer_value, $corresponding_issue->iid, $corresponding_issue->title));
         array_push($issue_time_added, [
             'iid' => $corresponding_issue->iid,
             'title' => $corresponding_issue->title,
@@ -145,8 +145,8 @@ foreach ($timers as $timer) {
     }
 }
 if($climate->arguments->get('verbose') && !$climate->arguments->get('reset')) {
-    $climate->green()->out("-------------------- RECAP : ---------------------");
-    $climate->green()->out(print_r($issue_time_added));
+    $climate->blue()->out("-------------------- RECAP : ---------------------");
+    $climate->blue()->out(print_r($issue_time_added));
 }
-$climate->green()->out("------- Finished -------");
+$climate->blue()->out("------- Finished -------");
 exit(0);
