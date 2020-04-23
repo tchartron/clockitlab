@@ -1,6 +1,6 @@
 {
-    "name": "thomaschartron/clockitlab",
-    "description": "Inject clockify times to gitlab",
+    "name": "web/clockitlab",
+    "description": "Add clockify times to gitlab corresponding issues",
     "require": {
         "guzzlehttp/guzzle": "^6.5",
         "vlucas/phpdotenv": "^4.1",
