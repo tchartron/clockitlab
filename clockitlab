@@ -108,7 +108,7 @@ sleep(1);
 $sprint_timers = $clockify->getTimersBetween($workspace_id, $user_id, $carbon_sprint_begin->toISOString(), $carbon_sprint_end->toISOString());
 $climate->blue()->out("Fetch sprint period timers");
 if(!is_array($sprint_timers) || empty($sprint_timers)) {
-    $climate->red()->out(sprintf("No timers found on clockify for the specified milestone : %s", $milestone));
+    $climate->red()->out(sprintf("No timers found on clockify for the specified milestone : %s", $climate->arguments->get('milestone')));
     exit(1);
 }
 $timers = [];
