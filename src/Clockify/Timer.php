@@ -15,7 +15,7 @@ class Timer {
     }
 
     public function getCorrespondingIssue($issues) {
-        foreach ($issues as $key => $issue) {
+        foreach ($issues as $issue) {
             if($issue->iid === $this->gitlab_issue_iid && $issue->title === $this->gitlab_issue_title) {
                 return $issue;
             }
