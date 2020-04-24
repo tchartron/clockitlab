@@ -46,7 +46,8 @@ Reset spent times
 docker container run --rm -v $(pwd):/clockitlab/ php:7.4-cli /bin/bash -c "curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer; cd clockitlab; /usr/local/bin/composer install; chmod u+x /clockitlab/clockitlab; php /clockitlab/clockitlab -m 'Sprint 20-14' -r;"
 ```
 
-![clockitlab-2](readme/clockitlab-2.gif)  
+![clockitlab-2](readme/clockitlab-2.gif =250x)  
+<img src="readme/clockitlab-2.gif" width="120" height="auto"/>
 
 
 
