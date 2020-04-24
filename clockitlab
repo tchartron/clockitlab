@@ -73,7 +73,7 @@ $container->add('guzzle-clockify', \GuzzleHttp\Client::class)->addArgument([
 
 $gitlab = new Clockitlab\Gitlab\GitlabApi($container->get('guzzle-gitlab'));
 $groups = $gitlab->getGroups();
-$climate->blue()->out(sprintf("Fetching Gitlab groups : %s", getenv('GITLAB_GROUPS')));
+$climate->blue()->out(sprintf("Fetch Gitlab groups : %s", getenv('GITLAB_GROUPS')));
 
 $issues = [];
 $milestone_dates = [
@@ -83,7 +83,7 @@ $milestone_dates = [
 
 foreach ($groups as $group) {
     $issues_result = $gitlab->getGroupMilestoneIssues($group->id, $climate->arguments->get('milestone'));
-    $climate->blue()->out(sprintf("Fetching Gitlab issues for group : %s", $group->name));
+    $climate->blue()->out(sprintf("Fetch Gitlab issues for group : %s", $group->name));
     foreach ($issues_result as $issue) {
         array_push($issues, (new Clockitlab\Gitlab\Issue($issue->id, $issue->iid, $issue->title, $group->id, $group->name, $issue->project_id, $issue->milestone)));
     }
@@ -103,10 +103,10 @@ $carbon_sprint_end = new Carbon\Carbon($sprint_end_dt);
 $clockify = new Clockitlab\Clockify\ClockifyApi($container->get('guzzle-clockify'));
 $user_id = $clockify->getUser()->id;
 $workspace_id = $clockify->getWorkspace()[0]->id; // 1 is user personnal workspace
-$climate->blue()->out(sprintf("Fetching Clockify user id and workspace id : %s %s", $user_id, $workspace_id));
+$climate->blue()->out(sprintf("Fetch Clockify user id and workspace id : %s %s", $user_id, $workspace_id));
 sleep(1);
 $sprint_timers = $clockify->getTimersBetween($workspace_id, $user_id, $carbon_sprint_begin->toISOString(), $carbon_sprint_end->toISOString());
-$climate->blue()->out("Fetching sprint period timers");
+$climate->blue()->out("Fetch sprint period timers");
 if(!is_array($sprint_timers) || empty($sprint_timers)) {
     $climate->red()->out(sprintf("No timers found on clockify for the specified milestone : %s", $milestone));
     exit(1);
@@ -128,11 +128,11 @@ foreach ($timers as $timer) {
     if($corresponding_issue !== false) {
         if($climate->arguments->get('reset')) {
             $reset_time_spent = $gitlab->resetTimeSpent($corresponding_issue->iid, $corresponding_issue->project_id, $timer->timer_value);
-            $climate->lightGreen()->out(sprintf("Reseting time spent on issue (%d) %s", $corresponding_issue->iid, $corresponding_issue->title));
+            $climate->lightGreen()->out(sprintf("Reset time spent on issue (%d) %s", $corresponding_issue->iid, $corresponding_issue->title));
             continue;
         }
         $time_spent_stats = $gitlab->pushTimeSpent($corresponding_issue->iid, $corresponding_issue->project_id, $timer->timer_value);
-        $climate->lightGreen()->out(sprintf("Adding %s to issue (%d) %s", $timer->timer_value, $corresponding_issue->iid, $corresponding_issue->title));
+        $climate->lightGreen()->out(sprintf("Add %s to issue (%d) %s", $timer->timer_value, $corresponding_issue->iid, $corresponding_issue->title));
         array_push($issue_time_added, [
             'iid' => $corresponding_issue->iid,
             'title' => $corresponding_issue->title,
