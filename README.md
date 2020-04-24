@@ -29,7 +29,7 @@ ___
 ### Clockify Api Token  
 ___
 <img src="readme/clockify-token-1.png" width="400" height="auto"/>  
-<br />
+<br /><br />
 <img src="readme/clockify-token-2.png" width="400" height="auto"/>  
 
 ## Utilisation
