@@ -20,10 +20,14 @@ chmod u+x clockitlab
 ```
 
 ## Configuration
-**Gitlab Api Token**  
-SCREEN
-**Clockify Api Token**  
-SCREEN
+### Gitlab Api Token
+![gitlab-token-1](readme/gitlab-token-1.png)  
+![gitlab-token-2](readme/gitlab-token-2.png)  
+[](/readme/gitlab-token-1.png)
+
+### Clockify Api Token**  
+![clockify-token-1](readme/clockify-token-1.png)  
+![clockify-token-2](readme/clockify-token-2.png)  
 
 ## Utilisation
 Add spent times
