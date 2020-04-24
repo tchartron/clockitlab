@@ -22,15 +22,15 @@ chmod u+x clockitlab
 ## Configuration
 ### Gitlab Api Token
 ___
-<img src="readme/gitlab-token-1.png" width="300" height="auto"/>
-  
-<img src="readme/gitlab-token-2.png" width="auto" height="auto"/>
-  
+<img src="readme/gitlab-token-1.png" width="300" height="auto"/>  
+
+<img src="readme/gitlab-token-2.png" width="auto" height="auto"/>  
+
 ### Clockify Api Token  
 ___
-<img src="readme/clockify-token-1.png" width="400" height="auto"/>
-  
-<img src="readme/clockify-token-2.png" width="400" height="auto"/>
+<img src="readme/clockify-token-1.png" width="400" height="auto"/>  
+
+<img src="readme/clockify-token-2.png" width="400" height="auto"/>  
 
 ## Utilisation
 Add spent times
