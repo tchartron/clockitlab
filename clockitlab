@@ -120,9 +120,6 @@ foreach ($sprint_timers as $value) {
         array_push($timers, (new Clockitlab\Clockify\Timer($issue_iid, $issue_title, str_replace(' ', '', $duration))));
     }
 }
-if(!$climate->arguments->get('reset')) {
-    $climate->blue()->out(sprintf("Convert clockify periods to human time"));
-}
 
 $issue_time_added = [];
 foreach ($timers as $timer) {
