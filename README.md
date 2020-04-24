@@ -21,11 +21,12 @@ chmod u+x clockitlab
 
 ## Configuration
 ### Gitlab Api Token
+___
 ![gitlab-token-1](readme/gitlab-token-1.png)  
 ![gitlab-token-2](readme/gitlab-token-2.png)  
-[](/readme/gitlab-token-1.png)
-
-### Clockify Api Token**  
+  
+### Clockify Api Token  
+___
 ![clockify-token-1](readme/clockify-token-1.png)  
 ![clockify-token-2](readme/clockify-token-2.png)  
 
@@ -44,7 +45,9 @@ Reset spent times
 #DOCKER
 docker container run --rm -v $(pwd):/clockitlab/ php:7.4-cli /bin/bash -c "curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer; cd clockitlab; /usr/local/bin/composer install; chmod u+x /clockitlab/clockitlab; php /clockitlab/clockitlab -m 'Sprint 20-14' -r;"
 ```
-GIFS
+![clockitlab-1](readme/clockitlab-1.gif)  
+
+![clockitlab-2](readme/clockitlab-2.gif)  
 
 
 
