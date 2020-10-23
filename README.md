@@ -12,7 +12,7 @@ Gets clockify timers depending on milestone dates and add them to corresponding 
 ### Installation
 
 ```
-git clone git@git.webexpertbusiness.net:web-expert-business/tools/clockitlab.git
+git clone git@github.com:tchartron/clockitlab.git
 cd clockitlab
 cp .env.example .env
 composer install

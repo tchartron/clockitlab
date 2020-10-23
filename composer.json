@@ -1,5 +1,5 @@
 {
-    "name": "web/clockitlab",
+    "name": "clockitlab",
     "description": "Add clockify times to gitlab corresponding issues",
     "require": {
         "guzzlehttp/guzzle": "^6.5",
