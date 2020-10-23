@@ -1,6 +1,6 @@
 # Clockitlab
 
-Clockitlab récupère les timers de Clockify en fonction des dates de la milestone demandée et ajoute les temps correspondants sur les issues Gitlab.
+Gets clockify timers depending on milestone dates and add them to corresponding gitlab issues
 
 ## Pré-requis
 
@@ -18,19 +18,6 @@ cp .env.example .env
 composer install
 chmod u+x clockitlab
 ```
-
-## Configuration
-### Gitlab Api Token
-___
-<img src="readme/gitlab-token-1.png" width="300" height="auto"/>  
-
-<img src="readme/gitlab-token-2.png" width="auto" height="auto"/>  
-
-### Clockify Api Token  
-___
-<img src="readme/clockify-token-1.png" width="400" height="auto"/>  
-<br /><br />
-<img src="readme/clockify-token-2.png" width="400" height="auto"/>  
 
 ## Utilisation
 Add spent times
